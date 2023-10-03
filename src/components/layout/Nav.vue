@@ -21,10 +21,11 @@ export default {
                 Categorias
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="#">Ação</a></li>
+                <li><a class="dropdown-item" href="#">Arcade</a></li>
+                <li><a class="dropdown-item" href="#">Aventura</a></li>
+                <li><a class="dropdown-item" href="#">Casual</a></li>
+                <li><a class="dropdown-item" href="#">Estratégia</a></li>
               </ul>
             </li>
             <li class="nav-item">
@@ -54,7 +55,7 @@ export default {
 <style scoped>
     .container {
         margin-right: 0px;
-        width: 80%;
+        width: 100%;
     }
 
     .nav-custom {
