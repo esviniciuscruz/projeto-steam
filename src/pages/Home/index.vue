@@ -1,14 +1,14 @@
 <script>
 import Sidebar from '../../components/layout/Sidebar.vue';
 import Nav from '../../components/layout/Nav.vue';
-import Jogos from './GamesContent.vue';
+import GamesContent from './GamesContent.vue';
 
 export default {
   name: 'Home',
   components: {
     Sidebar,
     Nav,
-    Jogos
+    GamesContent
   }
 }
 </script>
@@ -19,7 +19,7 @@ export default {
     <Sidebar />
     <section class="d-flex flex-column">
       <Nav />
-      <jogos />
+      <GamesContent />
     </section>
   </main>
 </template>

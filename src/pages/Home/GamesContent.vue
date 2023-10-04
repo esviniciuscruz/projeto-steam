@@ -28,7 +28,7 @@ export default {
         <div>
             <h2 class="mt-4">Destaques e Recomendados</h2>
             <section class="d-flex flex-row justify-content-around flex-wrap"> 
-                <GameItem :games="games" :show="show"/>
+                <GameItem :games="games"/>
             </section>
             <button @click="(show = show + 4), fetchGames">Mostrar mais</button>
             <button @click="(show = show > 3 ? show = 4 : show), fetchGames">Mostrar Menos</button>

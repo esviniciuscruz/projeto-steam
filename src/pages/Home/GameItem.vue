@@ -1,5 +1,5 @@
 <template>
-    <RouterLink :to="'/about/' + game.id" class="d-flex flex-column align-items-center jogo-container shadow pb-3 m-3 text-white text-decoration-none" v-for="(game, index) in displayedGames" :key="index">
+    <RouterLink :to="'/infoGame/' + game.id" class="d-flex flex-column align-items-center jogo-container shadow pb-3 m-3 text-white text-decoration-none" v-for="(game, index) in displayedGames" :key="index">
       <img :src="game.thumbnail" alt="Jogo">
       <h4 class="mt-2">{{ game.title }}</h4>
       <h5>Plataforma: {{ game.platform }}</h5>
