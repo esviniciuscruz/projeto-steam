@@ -18,12 +18,12 @@ const router = createRouter({
       component: () => import('../pages/infoGame/index.vue')
     },
     {
-      path: '/comprar/:id',
-      name: 'Comprar',
+      path: '/purchase/:id',
+      name: 'PurchaseForm',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../pages/comprar/index.vue')
+      component: () => import('../pages/purchase/index.vue')
     }
   ]
 })

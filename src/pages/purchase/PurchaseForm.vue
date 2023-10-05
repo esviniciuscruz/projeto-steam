@@ -1,10 +1,18 @@
 <script>
+import GamePurchase from './GamePurchase.vue'
+import { setLocalStarage } from './SetLocalStorage.vue'
+import { validationName, validationEmail, validationPhone, validationAddress, validationCpf, validationPayment, validationAgreement } from './Validations.vue'
+import { fetchGameId } from '../../services/FetchGameId.vue';
+
 export default {
-    name: 'FormComprar',
+  components: { GamePurchase },
+    name: 'PurchaseForm',
     data() {
         return {
+            game: [],
+            gameId: '',
             validated: '',
-            invalidFeedbackName: '',
+            invalidFeedbackName: 'invalid-feedback',
             invalidFeedbackEmail: 'invalid-feedback',
             invalidFeedbackPhone: 'invalid-feedback',
             invalidFeedbackAddress: 'invalid-feedback',
@@ -16,157 +24,121 @@ export default {
             address: '',
             cpf: '',
             payment: '',
-            agreement: false
+            agreement: false,
         }
     },
     methods: {
         async submitPurchase(e) {
             e.preventDefault()
 
+            var i = 0
+
             this.validated = 'was-validated'
 
-            if(!this.validationName()) {
+            if(!validationName(this.name)) {
+                i++
+                this.name = ''
                 this.invalidFeedbackName = 'invalid-feedback'
             }
             
-            if(!this.validationEmail()) {
+            if(!validationEmail(this.email)) {
+                i++
+                this.email = ''
                 this.invalidFeedbackEmail = 'invalid-feedback'
             }
 
-            if(!this.validationPhone()) {
+            if(!validationPhone(this.phone)) {
+                i++
+                this.phone = ''
                 this.invalidFeedbackPhone = 'invalid-feedback'
             }
 
-            if(!this.validationAddress()) {
+            if(!validationAddress(this.address)) {
+                i++
+                this.address = ''
                 this.invalidFeedbackAddress = 'invalid-feedback'
             }
 
-            if(!this.validationCpf()) {
+            if(!validationCpf(this.cpf)) {
+                i++
+                this.cpf = ''
                 this.invalidFeedbackCpf = 'invalid-feedback'
             }
-        },
-        validationName() {
-            if(this.name.trim() !== '') {
-                return true
+
+            if(!validationPayment(this.payment)) {
+                i++
+                this.invalidFeedbackPayment = 'invalid-feedback'
+            }
+
+            if(!validationAgreement(this.agreement)) {
+                i++
+            }
+
+            if(i == 0) {
+
+                const purchase = {
+                    gameId: this.game.id,
+                    name: this.name,
+                    email: this.email,  
+                    phone: this.phone,
+                    address: this.address,
+                    cpf: this.cpf,
+                    payment: this.payment
+                }
+
+                setLocalStarage(purchase) // Set purchase localStarage
             } else {
-                return false
+                console.log('Deu errado')
             }
-        },
-        validationEmail() {
-            const emailRegex = new RegExp(
-                /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,}$/
-            )
-
-            if(this.email.trim() !== '' && emailRegex.test(this.email))  {
-               return true
-            } else {
-                return false
-            }
-        },
-        validationPhone() {
-            const phoneRegex = /^\d{11}$/
-
-            if(this.phone.trim() !== '' && phoneRegex.test(this.phone)) {
-               return true
-            } else {
-                return false
-            }
-        },
-        validationAddress() {
-
-            if(this.address.trim() !== '' && this.address.length > 9) {
-                return true
-            } else {
-                return false
-            }
-        },
-        validationCpf() {
-
-            if(this.cpf.trim() !== '') {
-                this.cpf = this.cpf.replace(/[^\d]/g, ''); // Remove all non-numeric characters
-            if (this.cpf.length !== 11) {
-                return false; // The CPF must have 11 digits
-            }
-
-            // Checks if all digits are the same (invalid CPF, but can pass size validation)
-            if (/^(\d)\1+$/.test(this.cpf)) {
-                return false;
-            }
-
-            // Calculates the first check digit
-            let sum = 0;
-            for (let i = 0; i < 9; i++) {
-                sum += parseInt(this.cpf.charAt(i)) * (10 - i);
-            }
-            let remainder = 11 - (sum % 11);
-            let firstDigit = (remainder === 10 || remainder === 11) ? 0 : remainder;
-
-            // Calculates the second check digit
-            sum = 0;
-            for (let i = 0; i < 10; i++) {
-                sum += parseInt(this.cpf.charAt(i)) * (11 - i);
-            }
-            remainder = 11 - (sum % 11);
-            let secondDigit = (remainder === 10 || remainder === 11) ? 0 : remainder;
-
-            // Verifies that the calculated check digits match the original check digits
-            if (parseInt(this.cpf.charAt(9)) === firstDigit && parseInt(this.cpf.charAt(10)) === secondDigit) {
-                return true; // CPF valid
-            } else {
-                return false; // CPF invalid
-            }
-            } else {
-                return false
-            }
-            
-        },
-        validationPayment() {
-
-        },
-        validationAgreement() {
-
         }
-        
+    },
+    mounted() {
+        this.gameId = this.$route.params.id
+        this.game = fetchGameId(this.gameId)
+        this.game.then((data) => {
+            this.game = data
+        })
     }
 }
 </script>
 
 <template>
     <div class="d-flex flex-column align-items-center container px-5 mx-5 text-white">
+        <game-purchase :game="game" />
         <h1 class="my-4">Formulário para compra</h1>
         <form :class="'needs-validation ' + validated + ' w-75'" @submit="submitPurchase" novalidate>
             <div class="form-row w-100 px-5">
                 <div class="col-md-4 mb-3 w-100">
                     <label for="validationCustom01">Nome Completo</label>
-                    <input type="text" class="form-control" id="validationCustom01" v-model="name" placeholder="Nome Completo" required>
+                    <input type="text" class="form-control" id="validationCustom01" v-model="name" maxlength="50" placeholder="Nome Completo" required>
                     <div v-if="invalidFeedbackName" :class="invalidFeedbackName">
                         Nome Completo inválido! 
                     </div>
                 </div>
                 <div class="col-md-4 mb-3 w-100">
                     <label for="validationCustom02">Email</label>
-                    <input type="email" class="form-control" id="validationCustom02" v-model="email" placeholder="Email" required>
+                    <input type="email" class="form-control" id="validationCustom02" v-model="email" maxlength="50" placeholder="Email" required>
                     <div :class="invalidFeedbackEmail">
                         Email inválido!
                     </div>
                 </div>
                 <div class="col-md-4 mb-3 w-100">
-                    <label for="validationCustom02">Telefone</label>
-                    <input type="text" class="form-control" id="validationCustom02" minlength="11" v-model="phone" placeholder="Telefone" required>
+                    <label for="validationCustom02">Telefone (Somente números e com o DDD)</label>
+                    <input type="text" class="form-control" id="validationCustom02" minlength="11" v-model="phone" maxlength="12" placeholder="Telefone" required>
                     <div :class="invalidFeedbackPhone">
                         Telefone inválido!
                     </div>
                 </div>
                 <div class="col-md-4 mb-3 w-100">
                     <label for="validationCustom02">Endereço</label>
-                    <input type="text" class="form-control" id="validationCustom02" minlength="10" v-model="address" placeholder="Endereço" required>
+                    <input type="text" class="form-control" id="validationCustom02" maxlength="50" v-model="address" placeholder="Endereço" required>
                     <div :class="invalidFeedbackAddress">
                         Endereço inválido!
                     </div>
                 </div>
                 <div class="col-md-4 mb-3 w-100">
                     <label for="validationCustom02">Seu CPF</label>
-                    <input type="text" class="form-control" id="validationCustom02" minlength="11" v-model="cpf" placeholder="Seu CPF" required>
+                    <input type="text" class="form-control" id="validationCustom02" minlength="11" v-model="cpf" maxlength="14" placeholder="Seu CPF" required>
                     <div :class="invalidFeedbackCpf">
                         CPF inválido!
                     </div>
@@ -175,9 +147,9 @@ export default {
                     <label for="validationCustom02">Forma de pagamento</label>
                     <select class="custom-select form-control w-100" id="validationCustom02" v-model="payment" required>
                         <option value="">Selecione a forma de pagamento</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                        <option value="Pix">Pix</option>
+                        <option value="Boleto">Boleto</option>
                     </select>
                     <div class="invalid-feedback">
                         Forma de pagamento inválido!

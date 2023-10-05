@@ -1,4 +1,6 @@
 <script>
+import { fetchAllGames } from '../../Services/FetchAllGames.vue';
+import { fetchGameId } from '../../services/FetchGameId.vue';
 import GameItem from './GameItem.vue';
 export default {
   components: { GameItem },
@@ -6,19 +8,23 @@ export default {
     data() {
         return {
             games: [], // initialize an empty array
+            myGames: [],
             show: 4 // Amount of game it will show
         };
     },
-    methods: {
-        // Method that fetches data from the API
-        async fetchGames() {
-            const response = await fetch('https://www.freetogame.com/api/games');
-            const data = await response.json();
-            this.games = data;
-        }
-    },
     mounted() {
-        this.fetchGames() // Method is called
+        fetchAllGames().then((data) => { // calls the fetch function
+            this.games = data
+        })
+
+        this.myGames = localStorage.getItem('Data')
+        this.myGames = JSON.parse(this.myGames)
+        this.myGames.forEach((myGame) => {
+            this.myGames = []
+            fetchGameId(myGame.gameId).then((game) => {
+                
+            })
+        })
     }
 }
 </script>
@@ -32,6 +38,12 @@ export default {
             </section>
             <button @click="(show = show + 4), fetchGames">Mostrar mais</button>
             <button @click="(show = show > 3 ? show = 4 : show), fetchGames">Mostrar Menos</button>
+        </div>
+        <div>
+            <h2 class="mt-4">Meus Jogos:</h2>
+            <section class="d-flex flex-row justify-content-around flex-wrap"> 
+                <GameItem :games="games"/>
+            </section>
         </div>
     </div>
 </template>

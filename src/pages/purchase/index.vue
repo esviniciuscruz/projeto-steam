@@ -1,9 +1,9 @@
 <script>
 import Nav from '../../components/layout/Nav.vue';
 import Sidebar from '../../components/layout/Sidebar.vue'
-import FormComprar from './FormComprar.vue';
+import PurchaseForm from './PurchaseForm.vue';
 export default {
-  components: { Sidebar, Nav, FormComprar },
+  components: { Sidebar, Nav, PurchaseForm },
     
 }
 </script>
@@ -13,7 +13,7 @@ export default {
       <sidebar />
       <section class="d-flex flex-column">
         <Nav />
-        <FormComprar />
+        <PurchaseForm />
       </section>
     </main>
   </template>

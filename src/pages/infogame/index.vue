@@ -2,26 +2,23 @@
 import { RouterLink } from 'vue-router';
 import Nav from '../../components/layout/Nav.vue';
 import Sidebar from '../../components/layout/Sidebar.vue';
+import { fetchGameId } from '../../services/FetchGameId.vue';
 
 export default {
     name: 'InfoGame',
     components: { Sidebar, Nav, Nav, Sidebar, RouterLink },
     data() {
       return {
-        game: []
+        game: [],
+        gameId: ''
       }
     },
-    methods: {
-      async fetchGame() {
-            const response = await fetch(`https://www.freetogame.com/api/game?id=${this.$route.params.id}`);
-            const data = await response.json();
-            this.game = data;
-        }
-    },
     mounted() {
-    this.fetchGame()
-    
-},
+      this.gameId = this.$route.params.id
+      fetchGameId(this.gameId).then((data) => {
+          this.game = data
+      })
+  },
 }
 </script>
 
@@ -39,7 +36,7 @@ export default {
         <h4>Desenvolvedor: {{ game.developer }}</h4>
         <h4>Data de lançamento: {{ game.release_date }}</h4>
         <h2>Preço: R$ 97,00</h2>
-        <RouterLink :to="'/comprar/' + game.id" type="button" class="btn btn-success">Comprar</RouterLink>
+        <RouterLink :to="'/purchase/' + game.id" type="button" class="btn btn-success">Comprar</RouterLink>
       </div>
     </section>
   </main>
