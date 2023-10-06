@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router';
 import Nav from '../../components/layout/Nav.vue';
 import Sidebar from '../../components/layout/Sidebar.vue';
-import { fetchGameId } from '../../services/FetchGameId.vue';
+import { fetchGameId } from '../../Services/FetchGameId.vue';
 
 export default {
     name: 'InfoGame',
@@ -10,10 +10,32 @@ export default {
     data() {
       return {
         game: [],
-        gameId: ''
+        gameId: '',
+        localStorageExistis: false,
+        idExistis: 1
       }
     },
     mounted() {
+
+      this.localStorageExistis = localStorage.getItem('Data') ? localStorage.getItem('Data') : false
+
+      if(this.localStorageExistis) {
+        JSON.parse(this.localStorageExistis).forEach((info) => {
+          if(info.gameId == this.$route.params.id) {
+            this.idExistis = 0
+          }
+        });
+      }
+
+      console.log(this.idExistis)
+      
+
+      if(this.localStorageExistis.gameId) {
+        this.localStorageExistis = false
+      } else {
+        this.localStorageExistis = true
+      }
+      
       this.gameId = this.$route.params.id
       fetchGameId(this.gameId).then((data) => {
           this.game = data
@@ -36,7 +58,7 @@ export default {
         <h4>Desenvolvedor: {{ game.developer }}</h4>
         <h4>Data de lançamento: {{ game.release_date }}</h4>
         <h2>Preço: R$ 97,00</h2>
-        <RouterLink :to="'/purchase/' + game.id" type="button" class="btn btn-success">Comprar</RouterLink>
+        <RouterLink :to="'/purchase/' + game.id" v-if="idExistis !== 0" type="button" class="btn btn-success">Comprar</RouterLink>
       </div>
     </section>
   </main>

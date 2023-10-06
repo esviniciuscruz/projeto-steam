@@ -87,6 +87,7 @@ export default {
                 }
 
                 setLocalStarage(purchase) // Set purchase localStarage
+                this.$router.push('/')
             } else {
                 console.log('Deu errado')
             }

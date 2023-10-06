@@ -22,21 +22,20 @@ export default {
         }
     },
     mounted() {
-        
-        this.fetchGames()
-        this.showLoading = false
 
         if(localStorage.getItem('Data')) {
             this.myGames = localStorage.getItem('Data')
             this.myGames = JSON.parse(this.myGames)
             this.myGames.forEach((myGame) => {
-                 this.myGames = []
+                this.myGames = []
                 fetchGameId(myGame.gameId).then((game) => {
                     this.myGames.push(game)
                 })
             })
+        } else {
+            this.myGames = null
         }
-        
+        this.showLoading = false
     }
 }
 </script>
@@ -44,12 +43,11 @@ export default {
 <template>
     <div class="container text-white">
         <div>
-            <h2 class="mt-4">Destaques e Recomendados</h2>
+            <h2 class="mt-4">Meus Jogos</h2>
             <section class="d-flex flex-row justify-content-around flex-wrap"> 
-                <GameItem :games="games"/>
+                <GameItem v-if="myGames[0]" :games="myGames"/>
+                <h5 v-else class="text-left">Você não possui nenhum jogo!</h5>
             </section>
-            <button @click="(show = show + 4), fetchGames">Mostrar mais</button>
-            <button @click="(show = show > 3 ? show = 4 : show), fetchGames">Mostrar Menos</button>
         </div>
         <loading v-if="showLoading"/>
     </div>
