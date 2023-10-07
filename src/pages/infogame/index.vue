@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router';
 import Nav from '../../components/layout/Nav.vue';
 import Sidebar from '../../components/layout/Sidebar.vue';
-import { fetchGameId } from '../../Services/FetchGameId.vue';
+import { fetchGameId } from '../../services/api/FetchGames.js';
 
 export default {
     name: 'InfoGame',

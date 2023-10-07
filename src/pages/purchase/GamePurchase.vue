@@ -1,5 +1,5 @@
 <script>
-import { fetchGameId } from '../../services/FetchGameId.vue';
+import { fetchGameId } from '../../services/api/FetchGames.js';
 
 export default {
     name: 'GamePurchase',
