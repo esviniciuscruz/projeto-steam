@@ -11,13 +11,13 @@ export default {
         return {
             game: [],
             gameId: '',
-            validated: '',
-            invalidFeedbackName: 'invalid-feedback',
-            invalidFeedbackEmail: 'invalid-feedback',
-            invalidFeedbackPhone: 'invalid-feedback',
-            invalidFeedbackAddress: 'invalid-feedback',
-            invalidFeedbackCpf: 'invalid-feedback',
-            invalidFeedbackPayment: 'invalid-feedback',
+            validated: false,
+            invalidFeedbackName: false,
+            invalidFeedbackEmail: false,
+            invalidFeedbackPhone: false,
+            invalidFeedbackAddress: false,
+            invalidFeedbackCpf: false,
+            invalidFeedbackPayment: false,
             name: '',
             email: '',
             phone: '',
@@ -33,7 +33,7 @@ export default {
 
             var i = 0
 
-            this.validated = 'was-validated'
+            this.validated = true
 
             if(!validationName(this.name)) {
                 i++
@@ -87,7 +87,7 @@ export default {
                 }
 
                 setLocalStarage(purchase) // Set purchase localStarage
-                this.$router.push('/')
+                this.$router.push('/myGames')
             } else {
                 console.log('Deu errado')
             }
@@ -107,40 +107,40 @@ export default {
     <div class="d-flex flex-column align-items-center container px-5 mx-5 text-white">
         <game-purchase :game="game" />
         <h1 class="my-4">Formulário para compra</h1>
-        <form :class="'needs-validation ' + validated + ' w-75'" @submit="submitPurchase" novalidate>
+        <form class="needs-validation w-75" :class="{'was-validated' : validated}" @submit="submitPurchase" novalidate>
             <div class="form-row w-100 px-5">
                 <div class="col-md-4 mb-3 w-100">
                     <label for="validationCustom01">Nome Completo</label>
                     <input type="text" class="form-control" id="validationCustom01" v-model="name" maxlength="50" placeholder="Nome Completo" required>
-                    <div v-if="invalidFeedbackName" :class="invalidFeedbackName">
+                    <div v-if="invalidFeedbackName" class="invalid-feedback">
                         Nome Completo inválido! 
                     </div>
                 </div>
                 <div class="col-md-4 mb-3 w-100">
                     <label for="validationCustom02">Email</label>
                     <input type="email" class="form-control" id="validationCustom02" v-model="email" maxlength="50" placeholder="Email" required>
-                    <div :class="invalidFeedbackEmail">
+                    <div v-if="invalidFeedbackEmail" class="invalid-feedback">
                         Email inválido!
                     </div>
                 </div>
                 <div class="col-md-4 mb-3 w-100">
                     <label for="validationCustom02">Telefone (Somente números e com o DDD)</label>
                     <input type="text" class="form-control" id="validationCustom02" minlength="11" v-model="phone" maxlength="12" placeholder="Telefone" required>
-                    <div :class="invalidFeedbackPhone">
+                    <div v-if="invalidFeedbackPhone" class="invalid-feedback">
                         Telefone inválido!
                     </div>
                 </div>
                 <div class="col-md-4 mb-3 w-100">
                     <label for="validationCustom02">Endereço</label>
                     <input type="text" class="form-control" id="validationCustom02" maxlength="50" v-model="address" placeholder="Endereço" required>
-                    <div :class="invalidFeedbackAddress">
+                    <div v-if="invalidFeedbackAddress" class="invalid-feedback">
                         Endereço inválido!
                     </div>
                 </div>
                 <div class="col-md-4 mb-3 w-100">
                     <label for="validationCustom02">Seu CPF</label>
                     <input type="text" class="form-control" id="validationCustom02" minlength="11" v-model="cpf" maxlength="14" placeholder="Seu CPF" required>
-                    <div :class="invalidFeedbackCpf">
+                    <div v-if="invalidFeedbackCpf" class="invalid-feedback">
                         CPF inválido!
                     </div>
                 </div>
@@ -152,7 +152,7 @@ export default {
                         <option value="Pix">Pix</option>
                         <option value="Boleto">Boleto</option>
                     </select>
-                    <div class="invalid-feedback">
+                    <div v-if="invalidFeedbackPayment" class="invalid-feedback">
                         Forma de pagamento inválido!
                     </div>
                 </div>

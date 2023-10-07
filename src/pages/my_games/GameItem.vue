@@ -9,7 +9,7 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <RouterLink to="#" class="d-flex flex-column align-items-center jogo-container shadow pb-3 m-3 text-white text-decoration-none" v-for="(game, index) in games" :key="index">
+  <RouterLink :to="'/infoGame/' + game.id" class="d-flex flex-column align-items-center jogo-container shadow pb-3 m-3 text-white text-decoration-none" v-for="(game, index) in games" :key="index">
     <img :src="game.thumbnail" alt="Jogo">
     <h4 class="mt-2">{{ game.title }}</h4>
     <h5>Plataforma: {{ game.platform }}</h5>

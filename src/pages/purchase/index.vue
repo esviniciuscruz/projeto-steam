@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-    <main>
+    <main class="d-flex justify-content-center">
       <sidebar />
       <section class="d-flex flex-column">
         <Nav />

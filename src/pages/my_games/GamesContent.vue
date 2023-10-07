@@ -1,7 +1,6 @@
 <script>
 import Loading from '../../components/layout/Loading.vue';
-import { fetchAllGames } from '../../Services/FetchAllGames.vue';
-import { fetchGameId } from '../../Services/FetchGameId.vue';
+import { fetchGameId } from '../../services/FetchGameId.vue';
 import GameItem from './GameItem.vue';
 export default {
   components: { GameItem, Loading },
@@ -14,28 +13,25 @@ export default {
             showLoading: true
         };
     },
-    methods: {
-        fetchGames() {
-            fetchAllGames().then((data) => { // calls the fetch function
-                this.games = data
-            })
-        }
-    },
     mounted() {
 
         if(localStorage.getItem('Data')) {
-            this.myGames = localStorage.getItem('Data')
-            this.myGames = JSON.parse(this.myGames)
+            this.myGames = localStorage.getItem('Data') // Get data in localstorage
+            this.myGames = JSON.parse(this.myGames) 
             this.myGames.forEach((myGame) => {
-                this.myGames = []
-                fetchGameId(myGame.gameId).then((game) => {
-                    this.myGames.push(game)
+                this.myGames = [] // delete the informations
+                fetchGameId(myGame.gameId).then((game) => { // Get games with id
+                    this.myGames.push(game) // set games in the variable
                 })
             })
+
+            this.showLoading = false
         } else {
-            this.myGames = null
+            this.myGames = []
+            this.showLoading = false
         }
-        this.showLoading = false
+
+        
     }
 }
 </script>
@@ -61,21 +57,5 @@ export default {
 
     .container h2 {
         font-size: 1.7em;
-    }
-    .jogo-container {
-        background-image: linear-gradient(to top, #3799c4, #1B293A);
-        cursor: pointer;
-    }
-
-    .jogo-container span {
-        background-color: #4C6B22;
-        color: #BEEE11;
-        font-size: 1.8em;
-        font-weight: bold;
-        padding: 0px 10px;
-    }
-
-    button {
-        margin: auto;
     }
 </style>

@@ -15,7 +15,7 @@ export default {
 
 
 <template>
-  <main>
+  <main class="d-flex justify-content-center">
     <Sidebar />
     <section class="d-flex flex-column">
       <Nav />
@@ -26,7 +26,6 @@ export default {
 
 <style scoped>
     main {
-      display: flex;
       height: 100%;
       background-image: linear-gradient(to right, #193748, #1B2C42);
       padding: 20px 150px;

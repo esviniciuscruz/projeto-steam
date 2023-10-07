@@ -45,20 +45,23 @@ export default {
 </script>
 
 <template>
-<main>
+<main class="d-flex justify-content-center">
     <Sidebar />
     <section class="d-flex flex-column">
       <Nav />
       <div class="d-flex flex-column align-items-center px-5 py-5 gap-3 text-white">
         <img :src="game.thumbnail" alt="img game" class="my-2 custom-img" >
-        <h1>{{ game.title }}</h1>
-        <p>Descrição: {{ game.short_description }}</p>
-        <h4>Plataforma: {{ game.platform }}</h4>
-        <h4>Editora: {{ game.publisher }}</h4>
-        <h4>Desenvolvedor: {{ game.developer }}</h4>
-        <h4>Data de lançamento: {{ game.release_date }}</h4>
-        <h2>Preço: R$ 97,00</h2>
-        <RouterLink :to="'/purchase/' + game.id" v-if="idExistis !== 0" type="button" class="btn btn-success">Comprar</RouterLink>
+        <div class="w-50">
+          <h1 class="mb-5">{{ game.title }}</h1>
+          <p>{{ game.short_description }}</p>
+          <h4 class="">Plataforma: {{ game.platform }}</h4>
+          <h4>Editora: {{ game.publisher }}</h4>
+          <h4>Desenvolvedor: {{ game.developer }}</h4>
+          <h4>Data de lançamento: {{ game.release_date }}</h4>
+          <h2 class="mt-4">Preço: R$ 97,00</h2>
+          <hr>
+          <RouterLink :to="'/purchase/' + game.id" v-if="idExistis !== 0" type="button" class="btn btn-success mt-2">Comprar</RouterLink>
+        </div>
       </div>
     </section>
   </main>

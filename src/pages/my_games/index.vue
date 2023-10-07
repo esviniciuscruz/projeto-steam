@@ -15,7 +15,7 @@ export default {
 
 
 <template>
-  <main>
+  <main class="d-flex justify-content-center">
     <Sidebar />
     <section class="d-flex flex-column">
       <Nav />
