@@ -1,6 +1,6 @@
 <script>
 import Loading from '../../components/layout/Loading.vue';
-import { fetchGameId } from '../../services/FetchGameId.vue';
+import { fetchGameId } from '../../services/api/FetchGames.js';
 import GameItem from './GameItem.vue';
 export default {
   components: { GameItem, Loading },

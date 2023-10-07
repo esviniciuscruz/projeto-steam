@@ -2,7 +2,7 @@
 import GamePurchase from './GamePurchase.vue'
 import { setLocalStarage } from './SetLocalStorage.vue'
 import { validationName, validationEmail, validationPhone, validationAddress, validationCpf, validationPayment, validationAgreement } from './Validations.vue'
-import { fetchGameId } from '../../services/FetchGameId.vue';
+import { fetchGameId } from '../../services/api/FetchGames.js';
 
 export default {
   components: { GamePurchase },
